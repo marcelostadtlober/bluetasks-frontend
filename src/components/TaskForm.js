@@ -18,6 +18,14 @@ class TaskForm extends Component {
         this.onInputChangeHandler = this.onInputChangeHandler.bind(this);
     }
 
+    componentDidMount() {
+        const editId = this.props.match.params.id;
+        if (editId) {
+            const task = TaskService.load(~~editId);
+            this.setState({ task: task });
+        }
+    }
+
     onSubmitHandler(event) {
         event.preventDefault();
         TaskService.save(this.state.task);
@@ -42,11 +50,11 @@ class TaskForm extends Component {
                 <form onSubmit={ this.onSubmitHandler }>
                     <div className="form-group">
                         <label htmlFor="description">Descrição</label>
-                        <input type="text" className="form-control" name="description" placeholder="Digite a descrição" onChange={ this.onInputChangeHandler } />
+                        <input type="text" className="form-control" name="description" value={ this.state.task.description } placeholder="Digite a descrição" onChange={ this.onInputChangeHandler } />
                     </div>
                     <div className="form-group">
                         <label htmlFor="whenToDo">Data</label>
-                        <input type="date" className="form-control" name="whenToDo" placeholder="Informe a data" onChange={ this.onInputChangeHandler } />
+                        <input type="date" className="form-control" name="whenToDo" value={ this.state.task.whenToDo } placeholder="Informe a data" onChange={ this.onInputChangeHandler } />
                     </div>
                     <button type="submit" className="btn btn-primary">Cadastrar</button>
                     &nbsp;&nbsp;
